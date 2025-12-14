@@ -1,12 +1,16 @@
 import express from 'express';
 import logger from '../../logger/pino.logger';
+import { getMockTask } from './task.mocks';
 
 export const taskRouter = express.Router();
 
 taskRouter.get('/', (req, res) => {
   logger.info('Получение задачи');
   console.log(req.query);
-  res.json({ message: 'Список задач' });
+  const count = Number(req.query.count);
+  const result = getMockTask(count);
+
+  res.json(result);
 });
 
 taskRouter.get('/favorites', (req, res) => {
