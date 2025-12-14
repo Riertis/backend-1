@@ -1,40 +1,25 @@
 import express from 'express';
+import { logRoutes } from './bootstrap/log-routes';
 import logger from './logger/pino.logger';
+import { taskRouter } from './modules/tasks/task.router';
+import { userRouter } from './modules/user/user.router';
 
 const server = express();
-
 const port = 2000;
-
 server.use(express.json());
 
-server.get('/task', (req, res) => {
-  logger.info('Получение задачи');
-  console.log(req.query);
-  res.json({ message: 'Список задач' });
-});
+server.use('/tasks', taskRouter);
+server.use('/user', userRouter);
 
-server.get('/task/favorites', (req, res) => {
-  logger.info(`Получение избранных задач`);
-  res.json({ message: 'Избранные задачи' });
-});
+server.post('/payload', (req, res) => {
+  logger.info(`Выполнен запрос`);
 
-server.get('/task/:id', (req, res) => {
-  const id = req.params.id;
-
-  logger.info(`Получение задачи с id=${id}`);
-  res.json({ id });
-});
-
-server.post('/user/register', (req, res) => {
-  logger.info(`Регистрация нового пользователя`);
   console.log(req.body);
-  res.json({ message: 'Регистрация' });
+  res.json({ message: 'реквест выполнен' });
 });
 
-server.post('/user/login', (req, res) => {
-  logger.info(`Вход пользователя`);
-  res.json({ message: 'Вход' });
-});
+logRoutes(server);
+
 server.listen(port, () => {
   logger.info(`Server is started on port ${port}...`);
 });
