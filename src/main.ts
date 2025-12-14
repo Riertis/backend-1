@@ -8,7 +8,7 @@ const server = express();
 const port = 2000;
 server.use(express.json());
 
-server.use('/tasks', taskRouter);
+server.use('/task', taskRouter);
 server.use('/user', userRouter);
 
 server.post('/payload', (req, res) => {
