@@ -7,7 +7,7 @@ export const taskRouter = express.Router();
 taskRouter.get('/', (req, res) => {
   logger.info('Получение рандомной задачи');
   console.log(req.query);
-  const count = Number(req.query.count);
+  const count = Number(req.query.limit);
   const result = getMockTask(count);
 
   res.json(result);
